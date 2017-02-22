@@ -27,6 +27,9 @@
 void BasicDelayAudioProcessorEditor::timerCallback()
 {
     //exchange any data you want between UI elements and the Plugin "ourProcessor"
+    sliderDelayTime->setValue(processor.delayTime, dontSendNotification);
+    sliderFeedback->setValue(processor.feedback, dontSendNotification);
+    //exchange any data you want between UI elements and the Plugin processor
 }
 //[/MiscUserDefs]
 
@@ -126,16 +129,17 @@ void BasicDelayAudioProcessorEditor::sliderValueChanged (Slider* sliderThatWasMo
     if (sliderThatWasMoved == sliderDelayTime)
     {
         //[UserSliderCode_sliderDelayTime] -- add your slider handling code here..
+        processor.setParameterNotifyingHost(BasicDelayAudioProcessor::kDelayTimeParam,
+                                            (float)sliderDelayTime->getValue());
         //[/UserSliderCode_sliderDelayTime]
     }
     else if (sliderThatWasMoved == sliderFeedback)
     {
         //[UserSliderCode_sliderFeedback] -- add your slider handling code here..
+        processor.setParameterNotifyingHost(BasicDelayAudioProcessor::kFeedbackParam,
+                                            (float)sliderFeedback->getValue());
         //[/UserSliderCode_sliderFeedback]
     }
-
-    //[UsersliderValueChanged_Post]
-    //[/UsersliderValueChanged_Post]
 }
 
 

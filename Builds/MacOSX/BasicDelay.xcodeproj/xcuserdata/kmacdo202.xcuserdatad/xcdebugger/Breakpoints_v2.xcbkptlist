@@ -45,8 +45,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
             endingLineNumber = "34"
-            landmarkName = "AudioProcessor (BusesProperties() #if ! JucePlugin_IsMidiEffect #if ! JucePlugin_IsSynth .withInput (&quot;Input&quot;, AudioChannelSet::stereo(), true) #endif .withOutput (&quot;Output&quot;, AudioChannelSet::stereo(), true)"
-            landmarkType = "7">
+            landmarkName = "BasicDelayAudioProcessor::BasicDelayAudioProcessor()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
