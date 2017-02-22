@@ -14,6 +14,7 @@
 
 //==============================================================================
 BasicDelayAudioProcessor::BasicDelayAudioProcessor()
+
 #ifndef JucePlugin_PreferredChannelConfigurations
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -25,6 +26,20 @@ BasicDelayAudioProcessor::BasicDelayAudioProcessor()
                        )
 #endif
 {
+    // Some feedback
+    feedback = 0.5;
+    
+    // ¼ second delay
+    delayTime = 0.25;
+    
+    // Start reading from the start of the circular buffer
+    readIndex = 0;
+    
+    // Set the write index ahead of the read index
+    writeIndex = delayTime;
+    
+    // Initial delay buffer size
+    delayBufferLength = 0;
 }
 
 BasicDelayAudioProcessor::~BasicDelayAudioProcessor()
@@ -87,6 +102,19 @@ void BasicDelayAudioProcessor::changeProgramName (int index, const String& newNa
 //==============================================================================
 void BasicDelayAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    // Maximum delay of 1 second
+    delayBufferLength = (int)(sampleRate);
+    
+    // Set the buffer to 1 channel of the size of delayBufferLength using setSize
+    delayBuffer.setSize(1, delayBufferLength);
+    
+    // Set all the samples in the buffer to zero
+    delayBuffer.clear();
+    
+    // IMPORTANT: calculate the position of the read index relative to the write index
+    // i.e. the delay time in samples
+    readIndex = (int)(writeIndex - (delayTime * delayBufferLength)
+                      + delayBufferLength) % delayBufferLength;
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
